@@ -1,29 +1,31 @@
 package com.restapi.controller;
 
-import java.util.List;
-
 import com.restapi.model.Holiday;
+import com.restapi.service.implementation.HolidayService;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("holidays")
+@RestController
 public class HolidayController {
-    @GetMapping("isHoliday/{countryCode}")
-    boolean isHoliday(@PathVariable String countryCode, @RequestParam(required = false) String date) {
-        return true;
+
+    @Autowired HolidayService holidayService;
+
+    @GetMapping("{countryCode}/isHoliday/{date}")
+    Boolean isHoliday(@PathVariable String countryCode, @PathVariable(required = false) String date) {
+        System.out.println(date);
+        return holidayService.isHoliday(countryCode, date);
     }
 
     @GetMapping("/{countryCode}/date/{date}")
-    Holiday getHoliday(@PathVariable String countryCode, @PathVariable String date){
-        return null;
+    Holiday getHoliday(@PathVariable String countryCode, @PathVariable String date) {
+        return holidayService.getHoliday(countryCode, date);
     }
+
     @GetMapping("/{countryCode}/year/{year}")
-    List<Holiday> getHolidays(@PathVariable String countryCode, @PathVariable String year) {
-        return null;
+    Holiday[] getHolidays(@PathVariable String countryCode, @PathVariable String year) {
+        return holidayService.getHolidays(countryCode, Integer.parseInt(year));
     }
 }
