@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.restapi.configuration.ApplicationConfiguration.HOLIDAYS_URL;
+import static com.restapi.service.implementation.commons.TimeExtractor.extractYear;
 
 @Service
 @Slf4j
@@ -19,15 +20,7 @@ public class HolidayService implements HolidayServiceInterface {
 
     @Override
     public boolean isHoliday(String countryCode, String date) {
-        log.info("I WAS HERE");
-        Holiday[] holidays = getHolidays(countryCode, extractYear(date));
-
-        for (Holiday holiday : holidays) {
-            if (holiday.getDate().equals(date)) {
-                return true;
-            }
-        }
-        return false;
+        return getHoliday(countryCode, date) != null;
     }
 
     @Override
@@ -39,7 +32,6 @@ public class HolidayService implements HolidayServiceInterface {
                 return holiday;
             }
         }
-
         return null;
     }
 
@@ -50,14 +42,5 @@ public class HolidayService implements HolidayServiceInterface {
                 Holiday[].class);
 
         return holidays.getBody();
-    }
-
-    private Integer extractYear(String date) {
-        try {
-            return Integer.valueOf(date.split("-")[0]);
-        } catch (Exception e) {
-            log.info("User tried wrong date - " + date);
-            throw e;
-        }
     }
 }

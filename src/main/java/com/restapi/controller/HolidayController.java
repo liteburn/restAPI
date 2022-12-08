@@ -1,17 +1,19 @@
 package com.restapi.controller;
 
 import com.restapi.model.Holiday;
-import com.restapi.service.implementation.HolidayService;
+import com.restapi.service.HolidayServiceInterface;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/holidays/public")
 public class HolidayController {
 
-    @Autowired HolidayService holidayService;
+    @Autowired HolidayServiceInterface holidayService;
 
     @GetMapping("{countryCode}/isHoliday/{date}")
     Boolean isHoliday(@PathVariable String countryCode, @PathVariable(required = false) String date) {

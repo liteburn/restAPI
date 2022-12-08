@@ -1,9 +1,14 @@
 package com.restapi.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 
-@Data
+@Value
+@EqualsAndHashCode
 public class PersonalHoliday {
+    Integer userId;
     String date;
+
+    @EqualsAndHashCode.Exclude
     String name;
 }
